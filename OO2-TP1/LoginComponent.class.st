@@ -52,11 +52,11 @@ LoginComponent >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
-LoginComponent >> on: anUser and: theUsers [
-	user := anUser.
+LoginComponent >> on: arg1 and: arg2 [
+	user := arg1.
 	username := user username.
 	password := user password.
-	users := theUsers
+	users := arg2
 ]
 
 { #category : #'as yet unclassified' }
@@ -70,23 +70,22 @@ LoginComponent >> password: arg1 [
 ]
 
 { #category : #'as yet unclassified' }
-LoginComponent >> renderContentOn: aCanvas [
-| sention |
-	aCanvas
+LoginComponent >> renderContentOn: arg1 [
+	arg1
 		heading: 'CuOOra';
 		break;
-		form: [ 
-			aCanvas text: 'Username: '.
-			aCanvas textInput on: #username of: self.
-			aCanvas
+		form: [ | tmp2 tmp4 |
+			arg1 text: 'Username: '.
+			arg1 textInput on: #username of: self.
+			arg1
 				break;
 				text: 'Password: '.
-			aCanvas textInput on: #password of: self.
-			aCanvas break.
-			sention := aCanvas submitButton.
-			sention
+			arg1 textInput on: #password of: self.
+			arg1 break.
+			tmp2 := arg1 submitButton.
+			tmp2
 				callback: [ self home ];
-				value: 'Iniciar sesion' ]
+				value: 'Iniciar sesion'.]
 ]
 
 { #category : #'as yet unclassified' }
