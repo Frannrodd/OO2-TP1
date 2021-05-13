@@ -36,11 +36,11 @@ Post >> description: aDescription [
 ]
 
 { #category : #adding }
-Post >> dislike: aVote [
-	((self dislikes collect: [ :arg2 | arg2 user ]) includes: aVote)
-		ifFalse: [ self
-				removeFromLikes: aVote;
-				addVote: (Vote userDislikes: aVote) ]
+Post >> dislike: aUser [
+(self dislikes anySatisfy: [ :vote | vote user = aUser ])
+ifFalse: [ self
+removeFromLikes: aUser;
+addVote: (Vote userDislikes: aUser) ]
 ]
 
 { #category : #accessing }
@@ -60,11 +60,11 @@ Post >> isQuestion [
 ]
 
 { #category : #adding }
-Post >> like: aVote [
-	((self likes collect: [ :arg2 | arg2 user ]) includes: aVote)
+Post >> like: aUser [
+	(self likes anySatisfy: [ :vote | vote user = aUser ])
 		ifFalse: [ self
-				removeFromDislikes: aVote;
-				addVote: (Vote userLikes: aVote) ]
+				removeFromDislikes: aUser;
+				addVote: (Vote userLikes: aUser) ]
 ]
 
 { #category : #accessing }
@@ -100,6 +100,11 @@ Post >> removeFromLikes: anUser [
 	aVote := (self likes select: [ :arg3 | arg3 user = anUser ])
 		asOrderedCollection first.
 	self votes remove: aVote
+]
+
+{ #category : #accessing }
+Post >> user [ 
+	^user
 ]
 
 { #category : #'accessing - private' }

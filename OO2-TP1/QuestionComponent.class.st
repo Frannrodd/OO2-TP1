@@ -14,16 +14,16 @@ QuestionComponent class >> enterQuestion: arg1 [
 
 { #category : #adding }
 QuestionComponent >> addAnswerDialog [
-	| tmp1 |
-	tmp1 := AddAnswerComponent
+	| anAnswer |
+	anAnswer := AddAnswerComponent
 		onAddAnswer: question
 		and:
 			(cuOOra users select: [ :arg1 | arg1 questions includes: question ])
 				first.
-	self call: tmp1.
-	tmp1 answer2
-		ifNotNil: [ question addAnswer: tmp1 answer2.
-			self session user addPost: tmp1 answer2 ]
+	self call: anAnswer.
+	anAnswer answer2
+		ifNotNil: [ question addAnswer: anAnswer answer2.
+			self session user addPost: anAnswer answer2 ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -38,61 +38,60 @@ QuestionComponent >> question [
 ]
 
 { #category : #adding }
-QuestionComponent >> renderAddAnswerOn: arg1 [
-	arg1
+QuestionComponent >> renderAddAnswerOn: aCanvas [
+	aCanvas
 		text: 'no hay mas respuestas';
 		break.
-	self session user = nil
-		ifFalse: [ | tmp2 |
-			tmp2 := arg1 anchor.
+	self session user
+		ifNotNil: [ | tmp2 |
+			tmp2 := aCanvas anchor.
 			tmp2
 				callback: [ self addAnswerDialog ];
 				with: 'Hacer una nueva respuesta' ]
+
 ]
 
 { #category : #adding }
-QuestionComponent >> renderAnswer: arg1 on: arg2 [
-	arg2
+QuestionComponent >> renderAnswer: anAnswer on: aCanvas [
+	aCanvas
 		table: [ | tmp1 |
-			tmp1 := arg2.
+			tmp1 := aCanvas.
 			tmp1
-				tableRow: [ arg2
+				tableRow: [ aCanvas
 						tableData: [ | tmp2 |
-							arg2 text: 'realizada por: '.
-							tmp2 := arg2 anchor.
+							aCanvas text: 'realizada por: '.
+							tmp2 := aCanvas anchor.
 							tmp2
-								callback: [ self
-										enterUserDialog: (cuOOra users select: [ :arg3 | arg3 answers includes: arg1 ]) first ];
-								with:
-									(cuOOra users select: [ :arg4 | arg4 answers includes: arg1 ]) first
-										username ] ];
-				tableRow: [ arg2 tableData: arg1 description ];
-				tableRow: [ arg2
+								callback: [ self enterUserDialog: anAnswer user ];
+								with: anAnswer user username ] ];  "revisar que si cargue una pregunta sin usuario y tira error. "
+				tableRow: [ aCanvas tableData: anAnswer description ];
+				tableRow: [ aCanvas
 						tableData:
-							'likes ' , arg1 quantityOfLikes asString , ' | dislikes '
-								, arg1 quantityOfDislikes asString ];
-				tableRow: [ arg2
+							'likes ' , anAnswer quantityOfLikes asString , ' | dislikes '
+								, anAnswer quantityOfDislikes asString ];
+				tableRow: [ aCanvas
 						tableData: [ | tmp3 tmp4 |
-							tmp3 := arg2 anchor.
+							tmp3 := aCanvas anchor.
 							tmp3
-								callback: [ self like: arg1 ];
+								callback: [ self like: anAnswer ];
 								with: 'like'.
-							arg2 text: ' '.
-							tmp4 := arg2 anchor.
+							aCanvas text: ' '.
+							tmp4 := aCanvas anchor.
 							tmp4
-								callback: [ self dislike: arg1 ];
+								callback: [ self dislike: anAnswer ];
 								with: ' dislike' ] ] ]
+
 ]
 
 { #category : #adding }
-QuestionComponent >> renderAnswersOn: arg1 [
-	arg1 heading: 'respuestas'.
+QuestionComponent >> renderAnswersOn: aCanvas [
+	aCanvas heading: 'Respuestas'.
 	question answers
-		do: [ :arg2 | 
-			| tmp2 |
-			tmp2 := arg1.
-			tmp2
-				table: [ self renderAnswer: arg2 on: arg1 ];
+		do: [ :anAnswer  | 
+			| section |
+			section := aCanvas.
+			section
+				table: [ self renderAnswer: anAnswer on: aCanvas ];
 				horizontalRule ]
 ]
 
