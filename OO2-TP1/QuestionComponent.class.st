@@ -14,16 +14,16 @@ QuestionComponent class >> enterQuestion: arg1 [
 
 { #category : #adding }
 QuestionComponent >> addAnswerDialog [
-	| anAnswer |
-	anAnswer := AddAnswerComponent
+	| tmp1 |
+	tmp1 := AddAnswerComponent
 		onAddAnswer: question
 		and:
 			(cuOOra users select: [ :arg1 | arg1 questions includes: question ])
 				first.
-	self call: anAnswer.
-	anAnswer answer2
-		ifNotNil: [ question addAnswer: anAnswer answer2.
-			self session user addPost: anAnswer answer2 ]
+	self call: tmp1.
+	tmp1 answer2
+		ifNotNil: [ question addAnswer: tmp1 answer2.
+			self session user addPost: tmp1 answer2 ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -38,60 +38,61 @@ QuestionComponent >> question [
 ]
 
 { #category : #adding }
-QuestionComponent >> renderAddAnswerOn: aCanvas [
-	aCanvas
+QuestionComponent >> renderAddAnswerOn: arg1 [
+	arg1
 		text: 'no hay mas respuestas';
 		break.
-	self session user
-		ifNotNil: [ | tmp2 |
-			tmp2 := aCanvas anchor.
+	self session user = nil
+		ifFalse: [ | tmp2 |
+			tmp2 := arg1 anchor.
 			tmp2
 				callback: [ self addAnswerDialog ];
 				with: 'Hacer una nueva respuesta' ]
-
 ]
 
 { #category : #adding }
-QuestionComponent >> renderAnswer: anAnswer on: aCanvas [
-	aCanvas
+QuestionComponent >> renderAnswer: arg1 on: arg2 [
+	arg2
 		table: [ | tmp1 |
-			tmp1 := aCanvas.
+			tmp1 := arg2.
 			tmp1
-				tableRow: [ aCanvas
+				tableRow: [ arg2
 						tableData: [ | tmp2 |
-							aCanvas text: 'realizada por: '.
-							tmp2 := aCanvas anchor.
+							arg2 text: 'realizada por: '.
+							tmp2 := arg2 anchor.
 							tmp2
-								callback: [ self enterUserDialog: anAnswer user ];
-								with: anAnswer user username ] ];  "revisar que si cargue una pregunta sin usuario y tira error. "
-				tableRow: [ aCanvas tableData: anAnswer description ];
-				tableRow: [ aCanvas
+								callback: [ self
+										enterUserDialog: (cuOOra users select: [ :arg3 | arg3 answers includes: arg1 ]) first ];
+								with:
+									(cuOOra users select: [ :arg4 | arg4 answers includes: arg1 ]) first
+										username ] ];
+				tableRow: [ arg2 tableData: arg1 description ];
+				tableRow: [ arg2
 						tableData:
-							'likes ' , anAnswer quantityOfLikes asString , ' | dislikes '
-								, anAnswer quantityOfDislikes asString ];
-				tableRow: [ aCanvas
+							'likes ' , arg1 quantityOfLikes asString , ' | dislikes '
+								, arg1 quantityOfDislikes asString ];
+				tableRow: [ arg2
 						tableData: [ | tmp3 tmp4 |
-							tmp3 := aCanvas anchor.
+							tmp3 := arg2 anchor.
 							tmp3
-								callback: [ self like: anAnswer ];
+								callback: [ self like: arg1 ];
 								with: 'like'.
-							aCanvas text: ' '.
-							tmp4 := aCanvas anchor.
+							arg2 text: ' '.
+							tmp4 := arg2 anchor.
 							tmp4
-								callback: [ self dislike: anAnswer ];
+								callback: [ self dislike: arg1 ];
 								with: ' dislike' ] ] ]
-
 ]
 
 { #category : #adding }
-QuestionComponent >> renderAnswersOn: aCanvas [
-	aCanvas heading: 'Respuestas'.
+QuestionComponent >> renderAnswersOn: arg1 [
+	arg1 heading: 'respuestas'.
 	question answers
-		do: [ :anAnswer  | 
-			| section |
-			section := aCanvas.
-			section
-				table: [ self renderAnswer: anAnswer on: aCanvas ];
+		do: [ :arg2 | 
+			| tmp2 |
+			tmp2 := arg1.
+			tmp2
+				table: [ self renderAnswer: arg2 on: arg1 ];
 				horizontalRule ]
 ]
 
