@@ -26,35 +26,37 @@ UserComponent >> on: arg1 [
 { #category : #rendering }
 UserComponent >> renderContentOn: arg1 [
 	self renderUpperToolbarOn: arg1.
-	self session user ifNil: [ arg1 heading: [ arg1 text: 'preguntas de: ' , user username , ' ' ] ]
-		ifNotNil:  [ self renderFollower: arg1 ].
+	self session user = nil
+		ifTrue: [ arg1 heading: [ arg1 text: 'preguntas de: ' , user username , ' ' ] ]
+		ifFalse: [ self renderFollower: arg1 ].
 	self renderQuestion: arg1
 ]
 
-{ #category : #accessing }
-UserComponent >> renderFollower: aCanvas [
-	| section |
-	aCanvas
-		heading: [ aCanvas text: 'preguntas de: ' , user username , ' '.
-			section := aCanvas anchor.
+{ #category : #'as yet unclassified' }
+UserComponent >> renderFollower: arg1 [
+	arg1
+		heading: [ | tmp1 tmp2 |
+			arg1 text: 'preguntas de: ' , user username , ' '.
 			(self session user following includes: user)
-				ifTrue: [ section
+				ifTrue: [ tmp1 := arg1 anchor.
+					tmp1
 						callback: [ self unfollow: user ];
 						with: 'unfollow' ]
-				ifFalse: [ section
+				ifFalse: [ tmp2 := arg1 anchor.
+					tmp2
 						callback: [ self follow: user ];
 						with: 'follow' ] ]
 ]
 
 { #category : #'as yet unclassified' }
-UserComponent >> renderQuestion: aCanvas [
+UserComponent >> renderQuestion: arg1 [
 	| tmp1 |
 	tmp1 := cuOOra questionsFromAnUser: user.
 	tmp1
 		do: [ :arg2 | 
-			aCanvas
-				table: [ self renderQuestion: arg2 on: aCanvas.
-					aCanvas horizontalRule ] ]
+			arg1
+				table: [ self renderQuestion: arg2 on: arg1.
+					arg1 horizontalRule ] ]
 ]
 
 { #category : #'as yet unclassified' }
