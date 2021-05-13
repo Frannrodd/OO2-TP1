@@ -21,129 +21,129 @@ AddAnswerComponent class >> onAddAnswer: arg1 and: arg2 [
 		and: arg2
 ]
 
-{ #category : #accesing }
+{ #category : #'as yet unclassified' }
 AddAnswerComponent >> answer2 [
 	^ answer2
 ]
 
-{ #category : #accesing }
+{ #category : #'as yet unclassified' }
 AddAnswerComponent >> cancel [
 	answer2 := nil.
 	self answer
 ]
 
-{ #category : #accesing }
+{ #category : #'as yet unclassified' }
 AddAnswerComponent >> description [
 	^ description
 ]
 
-{ #category : #accesing }
+{ #category : #'as yet unclassified' }
 AddAnswerComponent >> description: arg1 [
 	description := arg1
 ]
 
-{ #category : #accesing }
+{ #category : #'as yet unclassified' }
 AddAnswerComponent >> logOut [
 	answer2 := nil.
 	super logOut
 ]
 
-{ #category : #accesing }
-AddAnswerComponent >> on: anAnswer and: aQuestion and: anUser [
-	question := aQuestion.
+{ #category : #'as yet unclassified' }
+AddAnswerComponent >> on: arg1 and: arg2 and: arg3 [
+	question := arg2.
 	cuOOra := CuOOra soleInstance.
-	whoQuestion := anUser.
-	answer2 := anAnswer.
-	description := anAnswer description
+	whoQuestion := arg3.
+	answer2 := arg1.
+	description := arg1 description
 ]
 
-{ #category : #accesing }
+{ #category : #'as yet unclassified' }
 AddAnswerComponent >> question [
 	^ question
 ]
 
-{ #category : #rendering }
-AddAnswerComponent >> renderContentOn: aCanvas [
-	self renderUpperToolbarOn: aCanvas.
-	aCanvas
-		table: [ self renderQuestion: question on: aCanvas ];
+{ #category : #'as yet unclassified' }
+AddAnswerComponent >> renderContentOn: arg1 [
+	self renderUpperToolbarOn: arg1.
+	arg1
+		table: [ self renderQuestion: question on: arg1 ];
 		horizontalRule.
-	self renderForm: aCanvas
+	self renderForm: arg1
 ]
 
-{ #category : #rendering }
-AddAnswerComponent >> renderForm: aCanvas [
-	| section |
-	aCanvas
-		form: [ aCanvas
+{ #category : #'as yet unclassified' }
+AddAnswerComponent >> renderForm: arg1 [
+	arg1
+		form: [ | tmp1 tmp2 tmp4 tmp6 |
+			arg1
 				text: 'respuesta:';
 				break.
-			section := aCanvas textArea on: #description of: self.
-			section
+			tmp4 := arg1 textArea on: #description of: self.
+			tmp4
 				columns: 80;
 				rows: 5.
-			section := aCanvas.
-			section
+			tmp6 := arg1.
+			tmp6
 				break;
 				break.
-			section := aCanvas submitButton.
-			section
+			tmp1 := arg1 submitButton.
+			tmp1
 				callback: [ self save ];
 				value: 'Guardar'.
-			section := aCanvas submitButton.
-			section
+			tmp2 := arg1 submitButton.
+			tmp2
 				callback: [ self cancel ];
 				value: 'Cancelar' ]
 ]
 
-{ #category : #rendering }
-AddAnswerComponent >> renderQuestion: aQuestion on: aCanvas [
-	| section |
-	section := aCanvas.
-	section
-		tableRow: [ aCanvas
-				tableData: [ 
-					section := aCanvas anchor.
-					section
-						callback: [ self enterQuestionDialog: aQuestion ];
-						with: aQuestion title ] ];
-		tableRow: [ aCanvas
-				tableData: [ aCanvas text: 'topicos: '.
-					aQuestion topics  join: {1. 1+1. 3}	] ];
-		tableRow: [ 
-			section := aCanvas.
-			section
-				tableData: [ 
-					aCanvas text: 'realizada por: '.
-					section := aCanvas anchor.
-					section
+{ #category : #'as yet unclassified' }
+AddAnswerComponent >> renderQuestion: arg1 on: arg2 [
+	| tmp1 |
+	tmp1 := arg2.
+	tmp1
+		tableRow: [ arg2
+				tableData: [ | tmp2 |
+					tmp2 := arg2 anchor.
+					tmp2
+						callback: [ self enterQuestionDialog: arg1 ];
+						with: arg1 title ] ];
+		tableRow: [ arg2
+				tableData: [ arg2 text: 'topicos: '.
+					arg1 topics do: [ :arg3 | arg2 text: arg3 title , '  ' ] ] ];
+		tableRow: [ | tmp3 |
+			tmp3 := arg2.
+			tmp3
+				tableData: [ | tmp4 |
+					arg2 text: 'realizada por: '.
+					tmp4 := arg2 anchor.
+					tmp4
 						callback: [ self enterUserDialog: whoQuestion ];
 						with: whoQuestion username.
-					aCanvas text: ' | ' , aQuestion answers size asString , ' respuesta' ];
-				tableRow: [ aCanvas
+					arg2 text: ' | ' , arg1 answers size asString , ' respuesta' ];
+				tableRow: [ arg2
 						tableData:
-							'likes ' , aQuestion quantityOfLikes asString , '| dislikes '
-								, aQuestion quantityOfDislikes asString ] ];
-		tableRow: [ aCanvas
-				tableData: [
-					section := aCanvas anchor.
-					section
-						callback: [ self like: aQuestion ];
+							'likes ' , arg1 quantityOfLikes asString , '| dislikes '
+								, arg1 quantityOfDislikes asString ] ];
+		tableRow: [ arg2
+				tableData: [ | tmp5 tmp6 |
+					tmp5 := arg2 anchor.
+					tmp5
+						callback: [ self like: arg1 ];
 						with: 'like'.
-					aCanvas text: ' '.
-					section := aCanvas anchor.
-					section
-						callback: [ self dislike: aQuestion ];
+					arg2 text: ' '.
+					tmp6 := arg2 anchor.
+					tmp6
+						callback: [ self dislike: arg1 ];
 						with: ' dislike' ] ]
 ]
 
-{ #category : #accesing }
+{ #category : #'as yet unclassified' }
 AddAnswerComponent >> save [
 	answer2 description: description.
 	^ self answer
 ]
 
-{ #category : #accesing }
+{ #category : #'as yet unclassified' }
 AddAnswerComponent >> whoQuestion [
 	^ whoQuestion
 ]
