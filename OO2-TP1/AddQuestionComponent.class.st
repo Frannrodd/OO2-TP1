@@ -55,8 +55,8 @@ AddQuestionComponent >> logOut [
 ]
 
 { #category : #'as yet unclassified' }
-AddQuestionComponent >> on: arg1 [
-	question := arg1.
+AddQuestionComponent >> on: aQuestion [
+	question := aQuestion.
 	description := question description.
 	title := question title.
 	cuOOra := CuOOra soleInstance.
@@ -69,61 +69,56 @@ AddQuestionComponent >> question [
 ]
 
 { #category : #'as yet unclassified' }
-AddQuestionComponent >> renderContentOn: arg1 [
-	| tmp2 |
-	self renderUpperToolbarOn: arg1.
-	tmp2 := arg1.
-	tmp2
+AddQuestionComponent >> renderContentOn: aCanvas [
+	self renderUpperToolbarOn: aCanvas.
+	aCanvas 
 		heading: 'Nueva pregunta';
 		horizontalRule.
-	self renderQuestion: arg1
+	self renderQuestion: aCanvas 
 ]
 
 { #category : #'as yet unclassified' }
-AddQuestionComponent >> renderQuestion: arg1 [
-	arg1
-		form: [ | tmp1 tmp2 tmp3 tmp4 tmp6 |
-			arg1
+AddQuestionComponent >> renderQuestion: aCanvas [
+	aCanvas
+		form: [ | button1 button2 textBlock |
+			aCanvas
 				text: 'titulo:  ';
 				break.
-			arg1 textInput on: #title of: self.
-			tmp3 := arg1.
-			tmp3
+			aCanvas textInput on: #title of: self.
+			aCanvas
 				break;
 				text: 'desarrollo: '.
-			arg1 break.
-			tmp6 := arg1 textArea on: #description of: self.
-			tmp6
+			aCanvas break.
+			textBlock := aCanvas textArea on: #description of: self.
+			textBlock
 				columns: 80;
 				rows: 5.
-			tmp4 := arg1.
-			tmp4
+			aCanvas
 				break;
 				text: 'topicos: '.
-			arg1 break.
-			arg1 textInput on: #topics of: self.
-			arg1
+			aCanvas break.
+			aCanvas textInput on: #topics of: self.
+			aCanvas
 				break;
 				break.
-			tmp1 := arg1 submitButton.
-			tmp1
+			button1 := aCanvas submitButton.
+			button1
 				callback: [ self save ];
 				value: 'Guardar'.
-			tmp2 := arg1 submitButton.
-			tmp2
+			button2 := aCanvas submitButton.
+			button2
 				callback: [ self cancel ];
 				value: 'Cancelar' ]
 ]
 
 { #category : #'as yet unclassified' }
 AddQuestionComponent >> save [
-	| topicCollection aTopicSet newQuestion topic |
+	| topicCollection aTopicSet newQuestion topic|
     topicCollection := self topics substrings: ','.
     aTopicSet := Set new.
     1 to: topicCollection size do: [ :tmp8 | 
         topic := Topic title: (topicCollection at: tmp8) description: ''.
-        aTopicSet add: topic.
-        cuOOra addTopic: topic ].
+        aTopicSet add: topic].
     newQuestion := question.
     newQuestion
         topics: aTopicSet;
@@ -137,8 +132,8 @@ AddQuestionComponent >> title [
 ]
 
 { #category : #'as yet unclassified' }
-AddQuestionComponent >> title: arg1 [
-	title := arg1
+AddQuestionComponent >> title: aTitle [
+	title := aTitle
 ]
 
 { #category : #'as yet unclassified' }
@@ -147,6 +142,6 @@ AddQuestionComponent >> topics [
 ]
 
 { #category : #'as yet unclassified' }
-AddQuestionComponent >> topics: arg1 [
-	topics := arg1
+AddQuestionComponent >> topics: aTopic [
+	topics := aTopic 
 ]

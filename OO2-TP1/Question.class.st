@@ -45,6 +45,11 @@ Question >> answers [
 	^ answers
 ]
 
+{ #category : #accessing }
+Question >> answersSize [
+	^ answers size
+]
+
 { #category : #testing }
 Question >> hasThisTopic: arg1 [
 	^ self topics includes: arg1

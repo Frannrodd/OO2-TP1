@@ -13,10 +13,10 @@ CuOOraComponent class >> initialize [
 
 { #category : #rendering }
 CuOOraComponent >> createQuestion [
-	| tmp1 |
-	tmp1 := AddQuestionComponent onAddQuestion.
-	self call: tmp1.
-	tmp1 question ifNotNil: [ self session user addPost: tmp1 question ]
+	| aQuestionComponent |
+	aQuestionComponent := AddQuestionComponent onAddQuestion.
+	self call: aQuestionComponent.
+	aQuestionComponent question ifNotNil: [ self session user addPost: aQuestionComponent question ]
 ]
 
 { #category : #rendering }
@@ -26,35 +26,34 @@ CuOOraComponent >> initialize [
 ]
 
 { #category : #rendering }
-CuOOraComponent >> renderAddQuestionOn: arg1 [
-	| tmp1 |
+CuOOraComponent >> renderAddQuestionOn: aCanvas [
 	self session user = nil
-		ifFalse: [ tmp1 := arg1 anchor.
-			tmp1
-				callback: [ self createQuestion ];
-				with: 'Hacer una nueva pregunta' ]
+		ifTrue: [ ^ self ].
+	 aCanvas anchor
+		callback: [ self createQuestion ];
+		with: 'Hacer una nueva pregunta'
 ]
 
 { #category : #rendering }
-CuOOraComponent >> renderContentOn: arg1 [
-	| tmp1 |
-	tmp1 := self.
-	tmp1 renderUpperToolbarOn: arg1.
+CuOOraComponent >> renderContentOn: aCanvas [
+	| aCommonMethod |
+	aCommonMethod := self.
+	aCommonMethod renderUpperToolbarOn: aCanvas.
 	self session user = nil
-		ifTrue: [ tmp1 renderQuestionsOn: arg1 ]
-		ifFalse: [ tmp1
-				renderAddQuestionOn: arg1;
-				renderRelevantQuestions: arg1 for: self session user ].
-	arg1 horizontalRule
+		ifTrue: [ aCommonMethod renderQuestionsOn: aCanvas]
+		ifFalse: [ aCommonMethod
+				renderAddQuestionOn: aCanvas;
+				renderRelevantQuestions: aCanvas for: self session user ].
+	aCanvas horizontalRule
 ]
 
 { #category : #rendering }
-CuOOraComponent >> renderRelevantQuestions: arg1 for: arg2 [
-	(((cuOOra interestingQuestionsForAnUser: arg2)
-		asSortedCollection: [ :arg6 :arg7 | arg6 creationDate > arg7 creationDate ])
+CuOOraComponent >> renderRelevantQuestions: aCanvas for: anUser [
+	(((cuOOra interestingQuestionsForAnUser: anUser )
+		asSortedCollection: [ :a :b | a creationDate > b creationDate ])
 		takeFirst: 5)
-		do: [ :arg8 | 
-			arg1
-				table: [ self renderQuestion: arg8 on: arg1 ];
+		do: [ :aPost | 
+			aCanvas 
+				table: [ self renderQuestion: aPost on: aCanvas   ];
 				horizontalRule ]
 ]
