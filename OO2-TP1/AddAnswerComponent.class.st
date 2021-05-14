@@ -102,31 +102,30 @@ AddAnswerComponent >> renderQuestion: aQuesiton on: aCanvas [
 	section := aCanvas.
 	section
 		tableRow: [ aCanvas
-				tableData: [ 
-					section := aCanvas anchor.
+				tableData: [ section := aCanvas anchor.
 					section
 						callback: [ self enterQuestionDialog: aQuesiton ];
 						with: aQuesiton title ] ];
 		tableRow: [ aCanvas
 				tableData: [ aCanvas text: 'topicos: '.
 					aQuesiton topics do: [ :arg3 | aCanvas text: arg3 title , '  ' ] ] ];
-		tableRow: [ 
-			section := aCanvas.
+		tableRow: [ section := aCanvas.
 			section
-				tableData: [ 
-					aCanvas text: 'realizada por: '.
+				tableData: [ aCanvas text: 'realizada por: '.
 					section := aCanvas anchor.
 					section
 						callback: [ self enterUserDialog: whoQuestion ];
 						with: whoQuestion username.
-					aCanvas text: ' | ' , aQuesiton answers size asString , ' respuesta' ];
-				tableRow: [ aCanvas
+					aCanvas
+					"aca rompe encapsulamiento"
+						text: ' | ' , aQuesiton answers size asString , ' respuesta' ];
+				
+					tableRow: [ aCanvas
 						tableData:
 							'likes ' , aQuesiton quantityOfLikes asString , '| dislikes '
 								, aQuesiton quantityOfDislikes asString ] ];
 		tableRow: [ aCanvas
-				tableData: [ 
-					section := aCanvas anchor.
+				tableData: [ section := aCanvas anchor.
 					section
 						callback: [ self like: aQuesiton ];
 						with: 'like'.

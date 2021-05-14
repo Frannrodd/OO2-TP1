@@ -32,18 +32,17 @@ UserComponent >> renderContentOn: aCanvas [
 	self renderQuestion: aCanvas
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 UserComponent >> renderFollower: aCanvas [
 	| section |
 	aCanvas
 		heading: [ aCanvas text: 'preguntas de: ' , user username , ' '.
-			(self session user following includes: user)
-				ifTrue: [ section := aCanvas anchor.
-					section
+			section := aCanvas anchor.
+			(self session user followIn: user)
+				ifTrue: [ section
 						callback: [ self unfollow: user ];
 						with: 'unfollow' ]
-				ifFalse: [ section := aCanvas anchor.
-					section
+				ifFalse: [ section
 						callback: [ self follow: user ];
 						with: 'follow' ] ]
 ]

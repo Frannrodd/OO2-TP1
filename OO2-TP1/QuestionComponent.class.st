@@ -84,14 +84,13 @@ QuestionComponent >> renderAnswer: anAnswer on: aCanvas [
 
 { #category : #adding }
 QuestionComponent >> renderAnswersOn: aCanvas [
-| section |
+	| section |
 	aCanvas heading: 'respuestas'.
 	question answers
-		do: [ :arg2 | 
-			
+		do: [ :anAnswer | 
 			section := aCanvas.
 			section
-				table: [ self renderAnswer: arg2 on: aCanvas ];
+				table: [ self renderAnswer: anAnswer on: aCanvas ];
 				horizontalRule ]
 ]
 
