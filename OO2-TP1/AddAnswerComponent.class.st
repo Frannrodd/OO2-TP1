@@ -72,68 +72,70 @@ AddAnswerComponent >> renderContentOn: arg1 [
 ]
 
 { #category : #'as yet unclassified' }
-AddAnswerComponent >> renderForm: arg1 [
-	arg1
-		form: [ | tmp1 tmp2 tmp4 tmp6 |
-			arg1
+AddAnswerComponent >> renderForm: aCanvas [
+|section|
+	aCanvas
+		form: [ 
+			aCanvas
 				text: 'respuesta:';
 				break.
-			tmp4 := arg1 textArea on: #description of: self.
-			tmp4
+			section := aCanvas textArea on: #description of: self.
+			section
 				columns: 80;
 				rows: 5.
-			tmp6 := arg1.
-			tmp6
+			section := aCanvas.
+			section
 				break;
 				break.
-			tmp1 := arg1 submitButton.
-			tmp1
+			section := aCanvas submitButton.
+			section
 				callback: [ self save ];
 				value: 'Guardar'.
-			tmp2 := arg1 submitButton.
-			tmp2
+			section := aCanvas submitButton.
+			section
 				callback: [ self cancel ];
 				value: 'Cancelar' ]
 ]
 
 { #category : #'as yet unclassified' }
-AddAnswerComponent >> renderQuestion: arg1 on: arg2 [
-	| tmp1 |
-	tmp1 := arg2.
-	tmp1
-		tableRow: [ arg2
-				tableData: [ | tmp2 |
-					tmp2 := arg2 anchor.
-					tmp2
-						callback: [ self enterQuestionDialog: arg1 ];
-						with: arg1 title ] ];
-		tableRow: [ arg2
-				tableData: [ arg2 text: 'topicos: '.
-					arg1 topics do: [ :arg3 | arg2 text: arg3 title , '  ' ] ] ];
-		tableRow: [ | tmp3 |
-			tmp3 := arg2.
-			tmp3
-				tableData: [ | tmp4 |
-					arg2 text: 'realizada por: '.
-					tmp4 := arg2 anchor.
-					tmp4
+AddAnswerComponent >> renderQuestion: aQuestion on: aCanvas [
+	| section  |
+	section := aCanvas.
+	section
+		tableRow: [ aCanvas
+				tableData: [ section := aCanvas anchor.
+					section
+						callback: [ self enterQuestionDialog: aQuestion ];
+						with: aQuestion title ] ];
+		tableRow: [ aCanvas
+				tableData: [ aCanvas text: 'topicos: '.
+					"	aQuestion topics do: [ :arg3 | aCanvas text: arg3 title , '  ' ]"
+				
+					aCanvas
+						text: (String streamContents: [:s | 
+		aQuestion topics  do: [:each | s nextPutAll: each asString]] )] ];
+		tableRow: [ section := aCanvas.
+			section
+				tableData: [ aCanvas text: 'realizada por: '.
+					section := aCanvas anchor.
+					section
 						callback: [ self enterUserDialog: whoQuestion ];
 						with: whoQuestion username.
-					arg2 text: ' | ' , arg1 answers size asString , ' respuesta' ];
-				tableRow: [ arg2
+					aCanvas
+						text: ' | ' , aQuestion answers size asString , ' respuesta' ];
+				tableRow: [ aCanvas
 						tableData:
-							'likes ' , arg1 quantityOfLikes asString , '| dislikes '
-								, arg1 quantityOfDislikes asString ] ];
-		tableRow: [ arg2
-				tableData: [ | tmp5 tmp6 |
-					tmp5 := arg2 anchor.
-					tmp5
-						callback: [ self like: arg1 ];
+							'likes ' , aQuestion quantityOfLikes asString , '| dislikes '
+								, aQuestion quantityOfDislikes asString ] ];
+		tableRow: [ aCanvas
+				tableData: [ section := aCanvas anchor.
+					section
+						callback: [ self like: aQuestion ];
 						with: 'like'.
-					arg2 text: ' '.
-					tmp6 := arg2 anchor.
-					tmp6
-						callback: [ self dislike: arg1 ];
+					aCanvas text: ' '.
+					section := aCanvas anchor.
+					section
+						callback: [ self dislike: aQuestion ];
 						with: ' dislike' ] ]
 ]
 
