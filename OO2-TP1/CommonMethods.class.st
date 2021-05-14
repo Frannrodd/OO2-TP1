@@ -99,11 +99,10 @@ CommonMethods >> renderQuestionsOn: aCanvas [
 { #category : #rendering }
 CommonMethods >> renderUpperToolbarOn: aCanvas [
 	aCanvas heading: 'CuOOra'.
-	self session user = nil
-		ifTrue: [ aCanvas anchor
+	self session user ifNil: [ aCanvas anchor
 				callback: [ self loginDialog ];
 				with: 'login' ]
-		ifFalse: [ aCanvas text: self session user username , ' '.
+		ifNotNil:  [ aCanvas text: self session user username , ' '.
 			aCanvas anchor
 				callback: [ self logOut ];
 				with: 'logout' ].
