@@ -27,8 +27,7 @@ CuOOraComponent >> initialize [
 
 { #category : #rendering }
 CuOOraComponent >> renderAddQuestionOn: aCanvas [
-	self session user = nil
-		ifTrue: [ ^ self ].
+	self session user ifNil: [ ^ self ].
 	 aCanvas anchor
 		callback: [ self createQuestion ];
 		with: 'Hacer una nueva pregunta'

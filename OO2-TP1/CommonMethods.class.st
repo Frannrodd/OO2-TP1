@@ -57,7 +57,7 @@ CommonMethods >> renderQuestion: aPost on: aCanvas [
 						with: aPost title ] ];
 		tableRow: [ aCanvas
 				tableData: [ aCanvas text: 'topicos: '.
-					aPost topics collect: [ :arg3 | aCanvas text: arg3 title , '  ' ] ] ];
+					aPost topics collect: [ :topic | aCanvas text: topic title , '  ' ] ] ];
 		tableRow: [ aCanvas
                 tableData: [ 
                     aCanvas text: 'realizada por: '.
@@ -81,19 +81,6 @@ CommonMethods >> renderQuestion: aPost on: aCanvas [
 					 aCanvas anchor
 						callback: [ self dislike: aPost ];
 						with: ' dislike' ] ]  
-]
-
-{ #category : #rendering }
-CommonMethods >> renderQuestionsOn: aCanvas [
-	| aSortedCollection|
-	aSortedCollection  := SortedCollection new
-		sortBlock: [ :a :b| a creationDate > b creationDate ].
-	aCanvas heading: 'Ultimas Preguntas'.
-	aSortedCollection 
-		do: [ :question | 
-			aCanvas
-				table: [ self renderQuestion: question on: aCanvas ];
-				horizontalRule ]
 ]
 
 { #category : #rendering }

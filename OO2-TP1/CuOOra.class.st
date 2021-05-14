@@ -146,6 +146,11 @@ CuOOra >> questionsWithATopic: arg1 [
 ]
 
 { #category : #'accessing-testing' }
+CuOOra >> selectUser: aUser [
+	^ users select: [ :arg1 | arg1 username = aUser username and: arg1 password = aUser password ]
+]
+
+{ #category : #'accessing-testing' }
 CuOOra >> topicIn: aTopic [
 	^topics includes: aTopic
 ]
