@@ -13,8 +13,8 @@ UserComponent class >> onViewUser: arg1 [
 ]
 
 { #category : #'as yet unclassified' }
-UserComponent >> follow: arg1 [
-	self session user ifNotNil: [ self session user addFollowing: arg1 ]
+UserComponent >> follow: anUser [
+	self session user ifNotNil: [ self session user addFollowing: anUser ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -24,42 +24,43 @@ UserComponent >> on: arg1 [
 ]
 
 { #category : #rendering }
-UserComponent >> renderContentOn: arg1 [
-	self renderUpperToolbarOn: arg1.
-	self session user = nil
-		ifTrue: [ arg1 heading: [ arg1 text: 'preguntas de: ' , user username , ' ' ] ]
-		ifFalse: [ self renderFollower: arg1 ].
-	self renderQuestion: arg1
+UserComponent >> renderContentOn: aCanvas [
+	self renderUpperToolbarOn: aCanvas.
+	self session user ifNil: [ aCanvas
+				heading: [ aCanvas text: 'preguntas de: ' , user username , ' ' ] ]
+		ifNotNil:  [ self renderFollower: aCanvas ].
+	self renderQuestion: aCanvas
 ]
 
 { #category : #'as yet unclassified' }
-UserComponent >> renderFollower: arg1 [
-	arg1
-		heading: [ | tmp1 tmp2 |
-			arg1 text: 'preguntas de: ' , user username , ' '.
+UserComponent >> renderFollower: aCanvas [
+	| section |
+	aCanvas
+		heading: [ aCanvas text: 'preguntas de: ' , user username , ' '.
 			(self session user following includes: user)
-				ifTrue: [ tmp1 := arg1 anchor.
-					tmp1
+				ifTrue: [ section := aCanvas anchor.
+					section
 						callback: [ self unfollow: user ];
 						with: 'unfollow' ]
-				ifFalse: [ tmp2 := arg1 anchor.
-					tmp2
+				ifFalse: [ section := aCanvas anchor.
+					section
 						callback: [ self follow: user ];
 						with: 'follow' ] ]
 ]
 
 { #category : #'as yet unclassified' }
-UserComponent >> renderQuestion: arg1 [
-	| tmp1 |
-	tmp1 := cuOOra questionsFromAnUser: user.
-	tmp1
-		do: [ :arg2 | 
-			arg1
-				table: [ self renderQuestion: arg2 on: arg1.
-					arg1 horizontalRule ] ]
+UserComponent >> renderQuestion: aCanvas [
+	| section |
+	section := cuOOra questionsFromAnUser: user.
+	section
+		do: [ :aQuestion | 
+			aCanvas
+				table: [ self renderQuestion: aQuestion on: aCanvas.
+					aCanvas horizontalRule ] ]
 ]
 
 { #category : #'as yet unclassified' }
-UserComponent >> unfollow: arg1 [
-	self session user ifNotNil: [ self session user removeFollowing: arg1 ]
+UserComponent >> unfollow: anUser [
+	self session user
+		ifNotNil: [ self session user removeFollowing: anUser ]
 ]
