@@ -65,7 +65,7 @@ CommonMethods >> renderQuestion: aPost on: aCanvas [
                         callback: [  self
 								enterUserDialog: ( aPost user)  ];
 						with:
-							( aPost user username).
+							( aPost postUsername ).
 								
                     aCanvas text: ' | ' , aPost answersSize asString , ' respuestas' ];
 				tableRow: [ aCanvas
