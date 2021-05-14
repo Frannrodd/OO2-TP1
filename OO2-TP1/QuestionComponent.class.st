@@ -62,10 +62,10 @@ QuestionComponent >> renderAnswer: arg1 on: arg2 [
 							tmp2 := arg2 anchor.
 							tmp2
 								callback: [ self
-										enterUserDialog: (cuOOra users select: [ :arg3 | arg3 answers includes: arg1 ]) first ];
+										enterUserDialog: (arg1 user)  ];
 								with:
-									(cuOOra users select: [ :arg4 | arg4 answers includes: arg1 ]) first
-										username ] ];
+									(arg1 postUsername ) 
+										 ]];
 				tableRow: [ arg2 tableData: arg1 description ];
 				tableRow: [ arg2
 						tableData:
@@ -81,7 +81,7 @@ QuestionComponent >> renderAnswer: arg1 on: arg2 [
 							tmp4 := arg2 anchor.
 							tmp4
 								callback: [ self dislike: arg1 ];
-								with: ' dislike' ] ] ]
+								with: ' dislike' ] ] ]  
 ]
 
 { #category : #adding }

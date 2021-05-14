@@ -139,7 +139,8 @@ AddAnswerComponent >> renderQuestion: arg1 on: arg2 [
 
 { #category : #'as yet unclassified' }
 AddAnswerComponent >> save [
-	answer2 description: description.
+	answer2 description: description;
+			  user: self session user.
 	^ self answer
 ]
 

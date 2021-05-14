@@ -72,6 +72,11 @@ Post >> likes [
 	^ votes select: [ :arg1 | arg1 isLike ]
 ]
 
+{ #category : #accessing }
+Post >> postUsername [ 
+	^user username
+]
+
 { #category : #'accessing-calculated' }
 Post >> quantityOfDislikes [
 	^ self dislikes size

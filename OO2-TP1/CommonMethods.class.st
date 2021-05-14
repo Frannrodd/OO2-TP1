@@ -63,10 +63,10 @@ CommonMethods >> renderQuestion: aPost on: aCanvas [
                     aCanvas text: 'realizada por: '.
                       aCanvas anchor
                         callback: [  self
-								enterUserDialog: (cuOOra users select: [ :arg4 | arg4 questions includes: aPost ]) first ];
+								enterUserDialog: ( aPost user)  ];
 						with:
-							(cuOOra users select: [ :arg5 | arg5 questions includes: aPost ]) first
-								username.
+							( aPost user username).
+								
                     aCanvas text: ' | ' , aPost answersSize asString , ' respuestas' ];
 				tableRow: [ aCanvas
 						tableData:

@@ -122,7 +122,8 @@ AddQuestionComponent >> save [
     newQuestion := question.
     newQuestion
         topics: aTopicSet;
-        title: title.
+        title: title;
+		  user: self session user.
     ^ self answer
 ]
 
