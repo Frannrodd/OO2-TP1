@@ -113,7 +113,7 @@ AddQuestionComponent >> renderQuestion: aCanvas [
 
 { #category : #'as yet unclassified' }
 AddQuestionComponent >> save [
-	| topicCollection aTopicSet newQuestion topic|
+	| topicCollection aTopicSet newQuestion topic |
     topicCollection := self topics substrings: ','.
     aTopicSet := Set new.
     1 to: topicCollection size do: [ :tmp8 | 
