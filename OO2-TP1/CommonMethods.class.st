@@ -84,19 +84,6 @@ CommonMethods >> renderQuestion: aPost on: aCanvas [
 ]
 
 { #category : #rendering }
-CommonMethods >> renderQuestionsOn: aCanvas [
-	| aSortedCollection|
-	aSortedCollection  := SortedCollection new
-		sortBlock: [ :a :b| a creationDate > b creationDate ].
-	aCanvas heading: 'Ultimas Preguntas'.
-	aSortedCollection 
-		do: [ :question | 
-			aCanvas
-				table: [ self renderQuestion: question on: aCanvas ];
-				horizontalRule ]
-]
-
-{ #category : #rendering }
 CommonMethods >> renderUpperToolbarOn: aCanvas [
 	aCanvas heading: 'CuOOra'.
 	self session user ifNil: [ aCanvas anchor

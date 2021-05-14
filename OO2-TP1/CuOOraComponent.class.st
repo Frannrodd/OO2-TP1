@@ -38,9 +38,8 @@ CuOOraComponent >> renderContentOn: aCanvas [
 	| aCommonMethod |
 	aCommonMethod := self.
 	aCommonMethod renderUpperToolbarOn: aCanvas.
-	self session user = nil
-		ifTrue: [ aCommonMethod renderQuestionsOn: aCanvas]
-		ifFalse: [ aCommonMethod
+	self session ifNil: [ aCommonMethod renderQuestionsOn: aCanvas ]
+		ifNotNil:  [ aCommonMethod
 				renderAddQuestionOn: aCanvas;
 				renderRelevantQuestions: aCanvas for: self session user ].
 	aCanvas horizontalRule

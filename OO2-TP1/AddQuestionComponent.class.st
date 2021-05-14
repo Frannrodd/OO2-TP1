@@ -113,18 +113,17 @@ AddQuestionComponent >> renderQuestion: aCanvas [
 
 { #category : #'as yet unclassified' }
 AddQuestionComponent >> save [
-	| topicCollection aTopicSet newQuestion topic |
-    topicCollection := self topics substrings: ','.
-    aTopicSet := Set new.
-    1 to: topicCollection size do: [ :tmp8 | 
-        topic := Topic title: (topicCollection at: tmp8) description: ''.
-        aTopicSet add: topic].
-    newQuestion := question.
-    newQuestion
-        topics: aTopicSet;
-        title: title;
-		  user: self session user.
-    ^ self answer
+	| topicCollection aTopicSet newQuestion  |
+	topicCollection := self topics substrings: ','.
+	aTopicSet := Set new.
+	aTopicSet := topicCollection
+		collect: [ :topicString | Topic title: topicString description: '' ].
+	newQuestion := question.
+	newQuestion
+		topics: aTopicSet;
+		title: title;
+		user: self session user.
+	^ self answer
 ]
 
 { #category : #'as yet unclassified' }
